@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>D3.js | Class 1</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+
+    <style>
+        /* Basic styles for the SVG */
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        th, td {
+        padding: 5px;
+        text-align: left;
+        }
+
+        td.bold {
+            color: red;
+        }
+
+
+    </style>
+</head>
+<body>
+
+    <!-- Table to select (DO NOT TOUCH THIS) -->
+     <table>
+        <thead>
+            <th>Player</th>
+            <th>Points per game</th>
+            <th>Total points</th>
+        </thead>
+        <tbody id="table_body"></tbody>
+     </table>
+
+
+    <script>
+
+        //select container
+        const tbody = d3.select("#table_body");
+
+        //Import the csv
+        d3.csv('nba_data.csv').then(function(data) { 
+            console.log(data);
+       
+        //convert the points from strings to numbers
+        data.forEach(=> {
+            d.points_per_game = +d['points_per_game'];
+            d.career_points = +d['career_points'];
+        });
+
+        
+        // sort players by points per game, with highest on top
+        data.sort ((a,b) => b.points_per_game - a.points_per_game);
+        // add data to table body 
+        const tableBody = d3.select("#table_body");
+
+        .selectAll("tr")
+        .data(data)
+        .enter()
+        .append("tr")
+        .attr("class", function(d) {
+        return d.Player === "LeBron James" ? "active" : null;
+        });
+           
+        tableBody.append("td").text(d => d.player);
+        tableBody.append("td").text(d => d.points_per_game);
+        tableBody.append("td").text(d => d.career_points);
+        });
+        
+    
+        //if player is active (Lebron James), color that line
+
+
+    
+    </script>
+
+</body>
+
+
+
+
+</html>
